@@ -429,12 +429,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 
 	g.cam.Surface.Clear()
-	g.cam.Surface.DrawImage(g.bg, g.cam.GetTranslation(0, 0))
+	g.cam.Surface.DrawImage(g.bg, g.cam.GetTranslation(&ebiten.DrawImageOptions{}, 0, 0))
 
 	frameSize := g.Cricket.Width
-	g.Cricket.Op.GeoM.Concat(g.cam.GetTranslation(
+	g.Cricket.Op = g.cam.GetTranslation(g.Cricket.Op,
 		float64(g.Cricket.Position.X), float64(g.Cricket.Position.Y),
-	).GeoM)
+	)
 	g.cam.Surface.DrawImage(g.Cricket.Image.SubImage(image.Rect(
 		g.Cricket.Frame*frameSize, 0, (1+g.Cricket.Frame)*frameSize, frameSize,
 	)).(*ebiten.Image), g.Cricket.Op)
